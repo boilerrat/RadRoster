@@ -1,0 +1,361 @@
+# Radiation Dose Tracking App - Git Ignore
+
+# ===== MCP Configuration Files =====
+# MCP server configuration with sensitive tokens
+mcp-config.json
+.env.mcp
+.env.mcp.local
+*.mcp.json
+
+# ===== Environment Variables =====
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+
+# ===== Node.js =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# ===== React Native =====
+# iOS
+ios/build/
+ios/Pods/
+ios/*.xcworkspace
+ios/*.xcodeproj
+ios/DerivedData/
+ios/GoogleService-Info.plist
+
+# Android
+android/app/build/
+android/build/
+android/gradle/
+android/local.properties
+android/.gradle/
+android/app/release/
+android/app/debug/
+android/app/google-services.json
+
+# ===== React Native Specific =====
+.expo/
+.expo-shared/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# ===== Backend =====
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
+
+# ===== Database =====
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+radroster_analytics.duckdb
+*.duckdb
+
+# Database dumps
+*.sql
+*.dump
+
+# ===== Testing =====
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Jest
+coverage/
+.nyc_output/
+
+# ===== IDE & Editor =====
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# WebStorm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===== OS Generated =====
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===== Build & Distribution =====
+# Build outputs
+build/
+dist/
+out/
+.next/
+.nuxt/
+
+# Mobile app builds
+*.apk
+*.aab
+*.ipa
+*.app
+
+# ===== Security & Secrets =====
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# SSH keys
+id_rsa
+id_rsa.pub
+*.ppk
+
+# API keys and secrets
+secrets.json
+config/secrets.json
+*.secret
+
+# ===== Logs & Monitoring =====
+# Application logs
+logs/
+*.log
+
+# Sentry
+.sentryclirc
+
+# ===== Documentation =====
+# Generated docs
+docs/build/
+docs/_build/
+
+# ===== Backup Files =====
+*.bak
+*.backup
+*.old
+*.tmp
+
+# ===== Package Managers =====
+# Yarn
+.yarn/
+.yarnrc
+
+# ===== Docker =====
+.dockerignore
+docker-compose.override.yml
+
+# ===== Terraform =====
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# ===== AWS =====
+.aws/
+
+# ===== Local Development =====
+# Local development files
+local/
+dev/
+development/
+
+# ===== Nuclear Industry Specific =====
+# Compliance reports (may contain sensitive data)
+reports/temp/
+exports/temp/
+*.pdf.tmp
+*.csv.tmp
+
+# Audit logs (sensitive)
+audit-logs/
+*.audit
+
+# ===== MCP Server Specific =====
+# MCP server logs
+mcp-logs/
+*.mcp.log
+
+# MCP server cache
+.mcp-cache/
+mcp-cache/
+
+# ===== Project Specific =====
+# Radiation dose data (sensitive)
+dose-data/
+*.dose
+*.exposure
+
+# Training records (sensitive)
+training-data/
+*.training
+
+# Bioassay data (sensitive)
+bioassay-data/
+*.bioassay
+
+# Worker data (sensitive)
+worker-data/
+*.worker
+
+# ===== Temporary Files =====
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.temp
+
+# ===== Cache =====
+.cache/
+cache/
+*.cache
+
+# ===== Coverage =====
+coverage/
+*.lcov
+.nyc_output/
+
+# ===== Performance =====
+# Profiling data
+*.cpuprofile
+*.heapsnapshot
+
+# ===== Misc =====
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db 
