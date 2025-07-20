@@ -43,14 +43,17 @@ const WorkersScreen: React.FC = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchWorkers = async (pageNum: number = 1, refresh: boolean = false) => {
+  const fetchWorkers = async (
+    pageNum: number = 1,
+    refresh: boolean = false
+  ) => {
     try {
       setLoading(true);
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_API_URL}/api/workers?page=${pageNum}&limit=20`,
         {
           headers: {
-            'Authorization': `Bearer ${await getAuthToken()}`,
+            Authorization: `Bearer ${await getAuthToken()}`,
             'Content-Type': 'application/json',
           },
         }
@@ -61,13 +64,13 @@ const WorkersScreen: React.FC = () => {
       }
 
       const data: WorkersResponse = await response.json();
-      
+
       if (refresh) {
         setWorkers(data.data.workers);
       } else {
-        setWorkers(prev => [...prev, ...data.data.workers]);
+        setWorkers((prev) => [...prev, ...data.data.workers]);
       }
-      
+
       setHasMore(pageNum < data.data.pagination.pages);
       setPage(pageNum);
     } catch (error) {
@@ -112,14 +115,14 @@ const WorkersScreen: React.FC = () => {
                 {
                   method: 'DELETE',
                   headers: {
-                    'Authorization': `Bearer ${await getAuthToken()}`,
+                    Authorization: `Bearer ${await getAuthToken()}`,
                     'Content-Type': 'application/json',
                   },
                 }
               );
 
               if (response.ok) {
-                setWorkers(prev => prev.filter(w => w.id !== workerId));
+                setWorkers((prev) => prev.filter((w) => w.id !== workerId));
                 Alert.alert('Success', 'Worker deactivated successfully');
               } else {
                 throw new Error('Failed to delete worker');
@@ -148,7 +151,9 @@ const WorkersScreen: React.FC = () => {
   };
 
   const formatDate = (dateString?: string) => {
-    if (!dateString) return 'Not set';
+    if (!dateString) {
+      return "Not set";
+    }
     return new Date(dateString).toLocaleDateString();
   };
 
@@ -186,7 +191,9 @@ const WorkersScreen: React.FC = () => {
         }
         onScroll={({ nativeEvent }) => {
           const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
-          const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+          const isCloseToBottom =
+            layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - 20;
           if (isCloseToBottom && hasMore && !loading) {
             handleLoadMore();
           }
@@ -197,7 +204,9 @@ const WorkersScreen: React.FC = () => {
           <TouchableOpacity
             key={worker.id}
             style={styles.workerCard}
-            onPress={() => navigation.navigate('EditWorker' as never, { worker } as never)}
+            onPress={() =>
+              navigation.navigate('EditWorker' as never, { worker } as never)
+            }
           >
             <View style={styles.workerHeader}>
               <View style={styles.workerInfo}>
@@ -205,8 +214,15 @@ const WorkersScreen: React.FC = () => {
                 <Text style={styles.workerId}>ID: {worker.employee_id}</Text>
               </View>
               <View style={styles.workerActions}>
-                <View style={[styles.roleBadge, { backgroundColor: getRoleColor(worker.role) }]}>
-                  <Text style={styles.roleText}>{worker.role.toUpperCase()}</Text>
+                <View
+                  style={[
+                    styles.roleBadge,
+                    { backgroundColor: getRoleColor(worker.role) },
+                  ]}
+                >
+                  <Text style={styles.roleText}>
+                    {worker.role.toUpperCase()}
+                  </Text>
                 </View>
                 <TouchableOpacity
                   style={styles.deleteButton}
@@ -216,19 +232,30 @@ const WorkersScreen: React.FC = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            
+
             <View style={styles.workerDetails}>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Annual Limit:</Text>
-                <Text style={styles.detailValue}>{worker.annual_limit_mSv} mSv</Text>
+                <Text style={styles.detailValue}>
+                  {worker.annual_limit_mSv} mSv
+                </Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Last Bioassay:</Text>
-                <Text style={styles.detailValue}>{formatDate(worker.last_bioassay)}</Text>
+                <Text style={styles.detailValue}>
+                  {formatDate(worker.last_bioassay)}
+                </Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Status:</Text>
-                <View style={[styles.statusBadge, { backgroundColor: worker.is_active ? '#059669' : '#dc2626' }]}>
+                <View
+                  style={[
+                    styles.statusBadge,
+                    {
+                      backgroundColor: worker.is_active ? '#059669' : '#dc2626',
+                    },
+                  ]}
+                >
                   <Text style={styles.statusText}>
                     {worker.is_active ? 'Active' : 'Inactive'}
                   </Text>
@@ -430,4 +457,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WorkersScreen; 
+export default WorkersScreen;

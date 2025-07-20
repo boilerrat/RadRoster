@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 
 const SettingsScreen: React.FC = () => {
@@ -23,7 +29,7 @@ const SettingsScreen: React.FC = () => {
       <View style={styles.content}>
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Account</Text>
-          
+
           <TouchableOpacity style={styles.settingItem}>
             <Text style={styles.settingTitle}>Profile</Text>
             <Text style={styles.settingDescription}>Manage your account</Text>
@@ -37,7 +43,7 @@ const SettingsScreen: React.FC = () => {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>App</Text>
-          
+
           <TouchableOpacity style={styles.settingItem}>
             <Text style={styles.settingTitle}>Sync Settings</Text>
             <Text style={styles.settingDescription}>Configure data sync</Text>
@@ -122,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsScreen; 
+export default SettingsScreen;

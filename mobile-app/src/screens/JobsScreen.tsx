@@ -58,7 +58,7 @@ const JobsScreen: React.FC = () => {
         `${process.env.EXPO_PUBLIC_API_URL}/api/jobs?page=${pageNum}&limit=20`,
         {
           headers: {
-            'Authorization': `Bearer ${await getAuthToken()}`,
+            Authorization: `Bearer ${await getAuthToken()}`,
             'Content-Type': 'application/json',
           },
         }
@@ -69,13 +69,13 @@ const JobsScreen: React.FC = () => {
       }
 
       const data: JobsResponse = await response.json();
-      
+
       if (refresh) {
         setJobs(data.data.jobs);
       } else {
-        setJobs(prev => [...prev, ...data.data.jobs]);
+        setJobs((prev) => [...prev, ...data.data.jobs]);
       }
-      
+
       setHasMore(pageNum < data.data.pagination.pages);
       setPage(pageNum);
     } catch (error) {
@@ -120,22 +120,27 @@ const JobsScreen: React.FC = () => {
                 {
                   method: 'DELETE',
                   headers: {
-                    'Authorization': `Bearer ${await getAuthToken()}`,
+                    Authorization: `Bearer ${await getAuthToken()}`,
                     'Content-Type': 'application/json',
                   },
                 }
               );
 
               if (response.ok) {
-                setJobs(prev => prev.filter(j => j.id !== jobId));
+                setJobs((prev) => prev.filter((j) => j.id !== jobId));
                 Alert.alert('Success', 'Job deleted successfully');
               } else {
                 const errorData = await response.json();
-                throw new Error(errorData.error?.message || 'Failed to delete job');
+                throw new Error(
+                  errorData.error?.message || 'Failed to delete job'
+                );
               }
             } catch (error) {
               console.error('Error deleting job:', error);
-              Alert.alert('Error', error instanceof Error ? error.message : 'Failed to delete job');
+              Alert.alert(
+                'Error',
+                error instanceof Error ? error.message : 'Failed to delete job'
+              );
             }
           },
         },
@@ -206,7 +211,9 @@ const JobsScreen: React.FC = () => {
         }
         onScroll={({ nativeEvent }) => {
           const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
-          const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+          const isCloseToBottom =
+            layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - 20;
           if (isCloseToBottom && hasMore && !loading) {
             handleLoadMore();
           }
@@ -217,7 +224,9 @@ const JobsScreen: React.FC = () => {
           <TouchableOpacity
             key={job.id}
             style={styles.jobCard}
-            onPress={() => navigation.navigate('EditJob' as never, { job } as never)}
+            onPress={() =>
+              navigation.navigate('EditJob' as never, { job } as never)
+            }
           >
             <View style={styles.jobHeader}>
               <View style={styles.jobInfo}>
@@ -225,8 +234,15 @@ const JobsScreen: React.FC = () => {
                 <Text style={styles.jobSite}>{job.site}</Text>
               </View>
               <View style={styles.jobActions}>
-                <View style={[styles.statusBadge, { backgroundColor: getStatusColor(job.status) }]}>
-                  <Text style={styles.statusText}>{getStatusText(job.status)}</Text>
+                <View
+                  style={[
+                    styles.statusBadge,
+                    { backgroundColor: getStatusColor(job.status) },
+                  ]}
+                >
+                  <Text style={styles.statusText}>
+                    {getStatusText(job.status)}
+                  </Text>
                 </View>
                 <TouchableOpacity
                   style={styles.deleteButton}
@@ -236,17 +252,21 @@ const JobsScreen: React.FC = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            
+
             <Text style={styles.jobDescription}>{job.description}</Text>
-            
+
             <View style={styles.jobDetails}>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Start Time:</Text>
-                <Text style={styles.detailValue}>{formatDate(job.start_time)}</Text>
+                <Text style={styles.detailValue}>
+                  {formatDate(job.start_time)}
+                </Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Duration:</Text>
-                <Text style={styles.detailValue}>{formatDuration(job.planned_duration_min)}</Text>
+                <Text style={styles.detailValue}>
+                  {formatDuration(job.planned_duration_min)}
+                </Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Supervisor:</Text>
@@ -446,4 +466,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default JobsScreen; 
+export default JobsScreen;

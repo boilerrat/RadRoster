@@ -30,7 +30,9 @@ const LoginScreen: React.FC = () => {
     } catch (error) {
       Alert.alert(
         'Login Failed',
-        error instanceof Error ? error.message : 'An error occurred during login'
+        error instanceof Error
+          ? error.message
+          : 'An error occurred during login'
       );
     } finally {
       setIsLoading(false);
@@ -156,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen; 
+export default LoginScreen;

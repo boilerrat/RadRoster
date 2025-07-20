@@ -13,10 +13,10 @@ interface DoseChartProps {
   height?: number;
 }
 
-const DoseChart: React.FC<DoseChartProps> = ({ 
-  doseEntries, 
+const DoseChart: React.FC<DoseChartProps> = ({
+  doseEntries,
   width = Dimensions.get('window').width - 40,
-  height = 200 
+  height = 200,
 }) => {
   if (doseEntries.length === 0) {
     return (
@@ -27,13 +27,13 @@ const DoseChart: React.FC<DoseChartProps> = ({
   }
 
   // Sort entries by timestamp
-  const sortedEntries = [...doseEntries].sort((a, b) => 
-    new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+  const sortedEntries = [...doseEntries].sort(
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
   );
 
   // Calculate cumulative doses
   let cumulative = 0;
-  const cumulativeData = sortedEntries.map(entry => {
+  const cumulativeData = sortedEntries.map((entry) => {
     cumulative += entry.dose_mSv;
     return {
       timestamp: new Date(entry.timestamp).getTime(),
@@ -55,29 +55,37 @@ const DoseChart: React.FC<DoseChartProps> = ({
 
   const doseRange = {
     min: 0,
-    max: Math.max(...cumulativeData.map(d => d.cumulative), 0.1), // Ensure max > 0
+    max: Math.max(...cumulativeData.map((d) => d.cumulative), 0.1), // Ensure max > 0
   };
 
   // Convert data points to chart coordinates
   const points = cumulativeData.map((point, index) => {
-    const x = padding + (point.timestamp - timeRange.min) / (timeRange.max - timeRange.min) * chartWidth;
-    const y = height - padding - (point.cumulative / doseRange.max) * chartHeight;
+    const x =
+      padding +
+      ((point.timestamp - timeRange.min) / (timeRange.max - timeRange.min)) *
+        chartWidth;
+    const y =
+      height - padding - (point.cumulative / doseRange.max) * chartHeight;
     return { x, y, ...point };
   });
 
   // Generate path for the line
-  const pathData = points.map((point, index) => {
-    if (index === 0) return `M ${point.x} ${point.y}`;
-    return `L ${point.x} ${point.y}`;
-  }).join(' ');
+  const pathData = points
+    .map((point, index) => {
+      if (index === 0) {
+        return `M ${point.x} ${point.y}`;
+      }
+      return `L ${point.x} ${point.y}`;
+    })
+    .join(' ');
 
   // Format time for x-axis labels
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit',
-      hour12: false 
+      hour12: false,
     });
   };
 
@@ -151,12 +159,7 @@ const DoseChart: React.FC<DoseChartProps> = ({
         ))}
 
         {/* Chart line */}
-        <Path
-          d={pathData}
-          stroke="#3b82f6"
-          strokeWidth="3"
-          fill="none"
-        />
+        <Path d={pathData} stroke="#3b82f6" strokeWidth="3" fill="none" />
 
         {/* Data points */}
         {points.map((point, index) => (
@@ -265,4 +268,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoseChart; 
+export default DoseChart;

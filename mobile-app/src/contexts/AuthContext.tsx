@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authService } from '../services/authService';
 
@@ -17,7 +23,9 @@ interface AuthContextType {
   refreshToken: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -57,11 +65,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       const response = await authService.login(email, password);
-      
+
       // Store tokens
       await AsyncStorage.setItem('accessToken', response.tokens.accessToken);
       await AsyncStorage.setItem('refreshToken', response.tokens.refreshToken);
-      
+
       setUser(response.user);
     } catch (error) {
       console.error('Login failed:', error);
@@ -94,11 +102,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       const response = await authService.refreshToken(refreshToken);
-      
+
       // Update stored tokens
       await AsyncStorage.setItem('accessToken', response.tokens.accessToken);
       await AsyncStorage.setItem('refreshToken', response.tokens.refreshToken);
-      
+
       // Update user info if provided
       if (response.user) {
         setUser(response.user);
@@ -121,11 +129,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     refreshToken,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {
@@ -134,4 +138,4 @@ export const useAuth = (): AuthContextType => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}; 
+};

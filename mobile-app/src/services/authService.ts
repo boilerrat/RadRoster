@@ -40,8 +40,9 @@ api.interceptors.response.use(
           refreshToken,
         });
 
-        const { accessToken, refreshToken: newRefreshToken } = response.data.data.tokens;
-        
+        const { accessToken, refreshToken: newRefreshToken } =
+          response.data.data.tokens;
+
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', newRefreshToken);
 
@@ -90,9 +91,13 @@ export const authService = {
   },
 
   async logout(accessToken: string): Promise<void> {
-    await api.post('/auth/logout', {}, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    await api.post(
+      '/auth/logout',
+      {},
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
   },
 
   async refreshToken(refreshToken: string): Promise<RefreshResponse> {
@@ -110,4 +115,4 @@ export const authService = {
     });
     return response.data.data.user;
   },
-}; 
+};

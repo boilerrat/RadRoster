@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { useNetwork } from './NetworkContext';
 
 type SyncStatus = 'synced' | 'pending' | 'failed' | 'syncing';
@@ -39,11 +45,11 @@ export const SyncProvider: React.FC<SyncProviderProps> = ({ children }) => {
 
     try {
       setSyncStatus('syncing');
-      
+
       // TODO: Implement actual sync logic
       // This is a stub for Day 1
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate sync
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate sync
+
       setSyncStatus('synced');
       setLastSyncTime(new Date());
       setPendingChanges(0);
@@ -54,7 +60,7 @@ export const SyncProvider: React.FC<SyncProviderProps> = ({ children }) => {
   };
 
   const addPendingChange = (change: any): void => {
-    setPendingChanges(prev => prev + 1);
+    setPendingChanges((prev) => prev + 1);
     setSyncStatus('pending');
   };
 
@@ -72,11 +78,7 @@ export const SyncProvider: React.FC<SyncProviderProps> = ({ children }) => {
     clearPendingChanges,
   };
 
-  return (
-    <SyncContext.Provider value={value}>
-      {children}
-    </SyncContext.Provider>
-  );
+  return <SyncContext.Provider value={value}>{children}</SyncContext.Provider>;
 };
 
 export const useSync = (): SyncContextType => {
@@ -85,4 +87,4 @@ export const useSync = (): SyncContextType => {
     throw new Error('useSync must be used within a SyncProvider');
   }
   return context;
-}; 
+};

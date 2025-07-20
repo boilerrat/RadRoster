@@ -5,8 +5,8 @@ interface LoadingScreenProps {
   message?: string;
 }
 
-export const LoadingScreen: React.FC<LoadingScreenProps> = ({ 
-  message = 'Loading...' 
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({
+  message = 'Loading...',
 }) => {
   return (
     <View style={styles.container}>
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     color: '#475569',
     fontWeight: '500',
   },
-}); 
+});

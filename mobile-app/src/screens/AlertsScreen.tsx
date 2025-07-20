@@ -12,8 +12,8 @@ const AlertsScreen: React.FC = () => {
       <View style={styles.content}>
         <Text style={styles.comingSoon}>Coming Soon</Text>
         <Text style={styles.description}>
-          This screen will display dose limit warnings and notifications
-          for workers approaching their annual limits.
+          This screen will display dose limit warnings and notifications for
+          workers approaching their annual limits.
         </Text>
       </View>
     </ScrollView>
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AlertsScreen; 
+export default AlertsScreen;

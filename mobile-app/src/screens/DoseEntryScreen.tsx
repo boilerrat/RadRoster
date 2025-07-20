@@ -48,20 +48,35 @@ const DoseEntryScreen: React.FC = () => {
       // TODO: Replace with actual API calls
       // const workersResponse = await fetch('/api/workers');
       // const jobsResponse = await fetch('/api/jobs');
-      
+
       // Mock data for now
       const mockWorkers: Worker[] = [
         { id: '1', name: 'John Smith', role: 'Technician' },
         { id: '2', name: 'Jane Doe', role: 'Supervisor' },
         { id: '3', name: 'Bob Wilson', role: 'RPO' },
       ];
-      
+
       const mockJobs: Job[] = [
-        { id: '1', job_number: 'JOB-001', description: 'Reactor Maintenance', site: 'Unit 1' },
-        { id: '2', job_number: 'JOB-002', description: 'Fuel Handling', site: 'Unit 2' },
-        { id: '3', job_number: 'JOB-003', description: 'Waste Processing', site: 'Unit 1' },
+        {
+          id: '1',
+          job_number: 'JOB-001',
+          description: 'Reactor Maintenance',
+          site: 'Unit 1',
+        },
+        {
+          id: '2',
+          job_number: 'JOB-002',
+          description: 'Fuel Handling',
+          site: 'Unit 2',
+        },
+        {
+          id: '3',
+          job_number: 'JOB-003',
+          description: 'Waste Processing',
+          site: 'Unit 1',
+        },
       ];
-      
+
       setWorkers(mockWorkers);
       setJobs(mockJobs);
     } catch (error) {
@@ -72,7 +87,14 @@ const DoseEntryScreen: React.FC = () => {
   };
 
   const handleSubmit = async (): Promise<void> => {
-    if (!selectedWorker || !selectedJob || !dose || !sourceInstrument || !instrumentSerial || !location) {
+    if (
+      !selectedWorker ||
+      !selectedJob ||
+      !dose ||
+      !sourceInstrument ||
+      !instrumentSerial ||
+      !location
+    ) {
       Alert.alert('Error', 'Please fill in all required fields');
       return;
     }
@@ -85,7 +107,7 @@ const DoseEntryScreen: React.FC = () => {
 
     try {
       setIsSubmitting(true);
-      
+
       const doseData = {
         worker_id: selectedWorker,
         job_id: selectedJob,
@@ -106,12 +128,12 @@ const DoseEntryScreen: React.FC = () => {
       //   },
       //   body: JSON.stringify(doseData),
       // });
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       Alert.alert('Success', 'Dose entry logged successfully');
-      
+
       // Reset form
       setSelectedWorker('');
       setSelectedJob('');
@@ -140,9 +162,7 @@ const DoseEntryScreen: React.FC = () => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Log Dose Entry</Text>
-        <Text style={styles.subtitle}>
-          Record radiation dose for worker
-        </Text>
+        <Text style={styles.subtitle}>Record radiation dose for worker</Text>
       </View>
 
       <View style={styles.form}>
@@ -156,7 +176,7 @@ const DoseEntryScreen: React.FC = () => {
               style={styles.picker}
             >
               <Picker.Item label="Select a worker" value="" />
-              {workers.map(worker => (
+              {workers.map((worker) => (
                 <Picker.Item
                   key={worker.id}
                   label={`${worker.name} (${worker.role})`}
@@ -177,7 +197,7 @@ const DoseEntryScreen: React.FC = () => {
               style={styles.picker}
             >
               <Picker.Item label="Select a job" value="" />
-              {jobs.map(job => (
+              {jobs.map((job) => (
                 <Picker.Item
                   key={job.id}
                   label={`${job.job_number} - ${job.description} (${job.site})`}
@@ -343,4 +363,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoseEntryScreen; 
+export default DoseEntryScreen;

@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { useAuth } from '../hooks/useAuth';
-import { api } from '../config/api';
-import DoseChart from '../components/DoseChart';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
+import { useAuth } from "../hooks/useAuth";
+import { api } from "../config/api";
+import DoseChart from "../components/DoseChart";
 
 interface DoseSummary {
   totalDose: number;
@@ -67,8 +75,8 @@ const DashboardScreen: React.FC = () => {
   const fetchActiveJobs = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/jobs?status=in_progress&limit=10');
-      
+      const response = await api.get("/jobs?status=in_progress&limit=10");
+
       if (response.data.success) {
         setActiveJobs(response.data.data.jobs);
         // Auto-select first active job if available
@@ -77,8 +85,8 @@ const DashboardScreen: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error('Error fetching active jobs:', error);
-      Alert.alert('Error', 'Failed to load active jobs');
+      console.error("Error fetching active jobs:", error);
+      Alert.alert("Error", "Failed to load active jobs");
     } finally {
       setLoading(false);
     }
@@ -88,13 +96,13 @@ const DashboardScreen: React.FC = () => {
     try {
       setSummaryLoading(true);
       const response = await api.get(`/dose/${jobId}/summary`);
-      
+
       if (response.data.success) {
         setDoseSummary(response.data.data);
       }
     } catch (error) {
-      console.error('Error fetching dose summary:', error);
-      Alert.alert('Error', 'Failed to load dose summary');
+      console.error("Error fetching dose summary:", error);
+      Alert.alert("Error", "Failed to load dose summary");
     } finally {
       setSummaryLoading(false);
     }
@@ -104,13 +112,13 @@ const DashboardScreen: React.FC = () => {
     try {
       setEntriesLoading(true);
       const response = await api.get(`/dose/job/${jobId}`);
-      
+
       if (response.data.success) {
         setDoseEntries(response.data.data.doseEntries);
       }
     } catch (error) {
-      console.error('Error fetching dose entries:', error);
-      Alert.alert('Error', 'Failed to load dose entries');
+      console.error("Error fetching dose entries:", error);
+      Alert.alert("Error", "Failed to load dose entries");
     } finally {
       setEntriesLoading(false);
     }
@@ -124,19 +132,27 @@ const DashboardScreen: React.FC = () => {
 
   const getStatusColor = (status: string): string => {
     switch (status) {
-      case 'in_progress': return '#10b981';
-      case 'completed': return '#3b82f6';
-      case 'cancelled': return '#ef4444';
-      default: return '#6b7280';
+      case "in_progress":
+        return "#10b981";
+      case "completed":
+        return "#3b82f6";
+      case "cancelled":
+        return "#ef4444";
+      default:
+        return "#6b7280";
     }
   };
 
   const getStatusText = (status: string): string => {
     switch (status) {
-      case 'in_progress': return 'Active';
-      case 'completed': return 'Completed';
-      case 'cancelled': return 'Cancelled';
-      default: return 'Planned';
+      case "in_progress":
+        return "Active";
+      case "completed":
+        return "Completed";
+      case "cancelled":
+        return "Cancelled";
+      default:
+        return "Planned";
     }
   };
 
@@ -162,15 +178,22 @@ const DashboardScreen: React.FC = () => {
                   key={job.id}
                   style={[
                     styles.jobCard,
-                    selectedJob?.id === job.id && styles.selectedJobCard
+                    selectedJob?.id === job.id && styles.selectedJobCard,
                   ]}
                   onPress={() => setSelectedJob(job)}
                 >
                   <Text style={styles.jobNumber}>{job.job_number}</Text>
                   <Text style={styles.jobSite}>{job.site}</Text>
                   <View style={styles.jobStatus}>
-                    <View style={[styles.statusDot, { backgroundColor: getStatusColor(job.status) }]} />
-                    <Text style={styles.statusText}>{getStatusText(job.status)}</Text>
+                    <View
+                      style={[
+                        styles.statusDot,
+                        { backgroundColor: getStatusColor(job.status) },
+                      ]}
+                    />
+                    <Text style={styles.statusText}>
+                      {getStatusText(job.status)}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               ))}
@@ -181,7 +204,9 @@ const DashboardScreen: React.FC = () => {
         {/* Dose Summary Section */}
         {selectedJob && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Dose Summary - {selectedJob.job_number}</Text>
+            <Text style={styles.sectionTitle}>
+              Dose Summary - {selectedJob.job_number}
+            </Text>
             {summaryLoading ? (
               <ActivityIndicator size="large" color="#3b82f6" />
             ) : doseSummary ? (
@@ -189,19 +214,27 @@ const DashboardScreen: React.FC = () => {
                 {/* Summary Stats */}
                 <View style={styles.statsGrid}>
                   <View style={styles.statCard}>
-                    <Text style={styles.statValue}>{doseSummary.totalDose.toFixed(2)}</Text>
+                    <Text style={styles.statValue}>
+                      {doseSummary.totalDose.toFixed(2)}
+                    </Text>
                     <Text style={styles.statLabel}>Total Dose (mSv)</Text>
                   </View>
                   <View style={styles.statCard}>
-                    <Text style={styles.statValue}>{doseSummary.averageDose.toFixed(2)}</Text>
+                    <Text style={styles.statValue}>
+                      {doseSummary.averageDose.toFixed(2)}
+                    </Text>
                     <Text style={styles.statLabel}>Average (mSv)</Text>
                   </View>
                   <View style={styles.statCard}>
-                    <Text style={styles.statValue}>{doseSummary.entryCount}</Text>
+                    <Text style={styles.statValue}>
+                      {doseSummary.entryCount}
+                    </Text>
                     <Text style={styles.statLabel}>Entries</Text>
                   </View>
                   <View style={styles.statCard}>
-                    <Text style={styles.statValue}>{doseSummary.forecast.hourlyRate.toFixed(2)}</Text>
+                    <Text style={styles.statValue}>
+                      {doseSummary.forecast.hourlyRate.toFixed(2)}
+                    </Text>
                     <Text style={styles.statLabel}>Rate (mSv/h)</Text>
                   </View>
                 </View>
@@ -211,33 +244,51 @@ const DashboardScreen: React.FC = () => {
                   <Text style={styles.forecastTitle}>Forecast</Text>
                   <View style={styles.forecastRow}>
                     <Text style={styles.forecastLabel}>Current Dose:</Text>
-                    <Text style={styles.forecastValue}>{doseSummary.forecast.currentDose.toFixed(2)} mSv</Text>
+                    <Text style={styles.forecastValue}>
+                      {doseSummary.forecast.currentDose.toFixed(2)} mSv
+                    </Text>
                   </View>
                   <View style={styles.forecastRow}>
                     <Text style={styles.forecastLabel}>Elapsed Time:</Text>
-                    <Text style={styles.forecastValue}>{formatTime(doseSummary.forecast.elapsedTimeMinutes)}</Text>
+                    <Text style={styles.forecastValue}>
+                      {formatTime(doseSummary.forecast.elapsedTimeMinutes)}
+                    </Text>
                   </View>
                   <View style={styles.forecastRow}>
                     <Text style={styles.forecastLabel}>Remaining Time:</Text>
-                    <Text style={styles.forecastValue}>{formatTime(doseSummary.forecast.remainingTimeMinutes)}</Text>
+                    <Text style={styles.forecastValue}>
+                      {formatTime(doseSummary.forecast.remainingTimeMinutes)}
+                    </Text>
                   </View>
                   <View style={styles.forecastRow}>
                     <Text style={styles.forecastLabel}>End of Shift:</Text>
-                    <Text style={styles.forecastValue}>{doseSummary.forecast.forecastEndOfShift.toFixed(2)} mSv</Text>
+                    <Text style={styles.forecastValue}>
+                      {doseSummary.forecast.forecastEndOfShift.toFixed(2)} mSv
+                    </Text>
                   </View>
                   <View style={styles.forecastRow}>
                     <Text style={styles.forecastLabel}>End of Job:</Text>
-                    <Text style={styles.forecastValue}>{doseSummary.forecast.forecastEndOfJob.toFixed(2)} mSv</Text>
+                    <Text style={styles.forecastValue}>
+                      {doseSummary.forecast.forecastEndOfJob.toFixed(2)} mSv
+                    </Text>
                   </View>
-                  
+
                   {/* Status Indicator */}
                   <View style={styles.statusContainer}>
-                    <View style={[
-                      styles.statusIndicator,
-                      { backgroundColor: doseSummary.forecast.isOnTrack ? '#10b981' : '#ef4444' }
-                    ]} />
+                    <View
+                      style={[
+                        styles.statusIndicator,
+                        {
+                          backgroundColor: doseSummary.forecast.isOnTrack
+                            ? "#10b981"
+                            : "#ef4444",
+                        },
+                      ]}
+                    />
                     <Text style={styles.statusText}>
-                      {doseSummary.forecast.isOnTrack ? 'On Track' : 'Exceeding Limits'}
+                      {doseSummary.forecast.isOnTrack
+                        ? "On Track"
+                        : "Exceeding Limits"}
                     </Text>
                   </View>
                 </View>
@@ -247,7 +298,9 @@ const DashboardScreen: React.FC = () => {
                   <View style={styles.warningsContainer}>
                     <Text style={styles.warningsTitle}>⚠️ Warnings</Text>
                     {doseSummary.forecast.warnings.map((warning, index) => (
-                      <Text key={index} style={styles.warningText}>• {warning}</Text>
+                      <Text key={index} style={styles.warningText}>
+                        • {warning}
+                      </Text>
                     ))}
                   </View>
                 )}
@@ -261,7 +314,9 @@ const DashboardScreen: React.FC = () => {
         {/* Dose Chart Section */}
         {selectedJob && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Dose Trend - {selectedJob.job_number}</Text>
+            <Text style={styles.sectionTitle}>
+              Dose Trend - {selectedJob.job_number}
+            </Text>
             {entriesLoading ? (
               <ActivityIndicator size="large" color="#3b82f6" />
             ) : (
@@ -273,7 +328,7 @@ const DashboardScreen: React.FC = () => {
         {/* Quick Actions */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Quick Actions</Text>
-          
+
           <View style={styles.actionsGrid}>
             <TouchableOpacity style={styles.actionCard}>
               <Text style={styles.actionTitle}>Log Dose</Text>
@@ -312,23 +367,23 @@ const DashboardScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: "#f8fafc",
   },
   header: {
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
+    borderBottomColor: "#e2e8f0",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1e293b',
+    fontWeight: "bold",
+    color: "#1e293b",
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 16,
-    color: '#64748b',
+    color: "#64748b",
   },
   content: {
     padding: 20,
@@ -338,43 +393,43 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#1e293b',
+    fontWeight: "600",
+    color: "#1e293b",
     marginBottom: 16,
   },
   emptyText: {
-    textAlign: 'center',
-    color: '#64748b',
+    textAlign: "center",
+    color: "#64748b",
     fontSize: 16,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   jobCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 8,
     padding: 16,
     marginRight: 12,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: "#e2e8f0",
     minWidth: 150,
   },
   selectedJobCard: {
-    borderColor: '#3b82f6',
-    backgroundColor: '#eff6ff',
+    borderColor: "#3b82f6",
+    backgroundColor: "#eff6ff",
   },
   jobNumber: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1e293b',
+    fontWeight: "600",
+    color: "#1e293b",
     marginBottom: 4,
   },
   jobSite: {
     fontSize: 14,
-    color: '#64748b',
+    color: "#64748b",
     marginBottom: 8,
   },
   jobStatus: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   statusDot: {
     width: 8,
@@ -384,73 +439,73 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 12,
-    color: '#64748b',
+    color: "#64748b",
   },
   summaryContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 8,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: "#e2e8f0",
   },
   statsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginBottom: 20,
   },
   statCard: {
-    backgroundColor: '#f8fafc',
+    backgroundColor: "#f8fafc",
     borderRadius: 6,
     padding: 12,
     marginRight: 8,
     marginBottom: 8,
     minWidth: 80,
-    alignItems: 'center',
+    alignItems: "center",
   },
   statValue: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1e293b',
+    fontWeight: "bold",
+    color: "#1e293b",
   },
   statLabel: {
     fontSize: 12,
-    color: '#64748b',
-    textAlign: 'center',
+    color: "#64748b",
+    textAlign: "center",
     marginTop: 2,
   },
   forecastContainer: {
-    backgroundColor: '#f8fafc',
+    backgroundColor: "#f8fafc",
     borderRadius: 6,
     padding: 16,
     marginBottom: 16,
   },
   forecastTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1e293b',
+    fontWeight: "600",
+    color: "#1e293b",
     marginBottom: 12,
   },
   forecastRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 8,
   },
   forecastLabel: {
     fontSize: 14,
-    color: '#64748b',
+    color: "#64748b",
   },
   forecastValue: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#1e293b',
+    fontWeight: "500",
+    color: "#1e293b",
   },
   statusContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#e2e8f0',
+    borderTopColor: "#e2e8f0",
   },
   statusIndicator: {
     width: 12,
@@ -459,48 +514,48 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   warningsContainer: {
-    backgroundColor: '#fef2f2',
+    backgroundColor: "#fef2f2",
     borderRadius: 6,
     padding: 12,
     borderLeftWidth: 4,
-    borderLeftColor: '#ef4444',
+    borderLeftColor: "#ef4444",
   },
   warningsTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#dc2626',
+    fontWeight: "600",
+    color: "#dc2626",
     marginBottom: 8,
   },
   warningText: {
     fontSize: 13,
-    color: '#dc2626',
+    color: "#dc2626",
     marginBottom: 4,
   },
   actionsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   actionCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 8,
     padding: 16,
     marginRight: 12,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: "#e2e8f0",
     minWidth: 150,
   },
   actionTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1e293b',
+    fontWeight: "600",
+    color: "#1e293b",
     marginBottom: 4,
   },
   actionDescription: {
     fontSize: 14,
-    color: '#64748b',
+    color: "#64748b",
     lineHeight: 20,
   },
 });
 
-export default DashboardScreen; 
+export default DashboardScreen;
