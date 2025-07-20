@@ -6,6 +6,7 @@ mcp-config.json
 .env.mcp
 .env.mcp.local
 *.mcp.json
+cursor-mcp-config.json
 
 # ===== Environment Variables =====
 .env
